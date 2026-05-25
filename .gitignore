@@ -1,0 +1,79 @@
+# ─── Dependencies ───
+node_modules/
+.pnpm-store/
+
+# ─── Build outputs ───
+dist/
+.next/
+.turbo/
+out/
+*.tsbuildinfo
+
+# ─── Environment ───
+.env
+.env.local
+.env.*.local
+.env.vercel
+
+# ─── Data files ───
+*.geojson
+*.zip
+
+# ─── IDE ───
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ─── Supabase ───
+supabase/.temp/
+supabase/.env.local
+
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# ─── Test & Coverage ───
+coverage/
+.vitest/
+test-results/
+playwright-report/
+blob-report/
+
+# ─── Logs ───
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# ─── Vercel ───
+.vercel/
+
+.vercel
+
+CLAUDE.local.md
+.env*.local
+.gstack/
+
+# ─── Scratch / local-only script state ───
+# Dotfile-prefixed entries in scripts/ are session scratch: parsed Jira
+# attachments, transcript intermediates, one-off state dumps. Never commit.
+scripts/.*
+
+# Diagnostic/recon working dir — converted PDFs, rendered PNGs, bbox JSONs.
+# Useful locally but never commit (large + per-developer).
+tmp/
+
+# ─── Supabase migration dumps (PII — never commit) ───
+# Schema/data/role dumps pulled for the CAS → MMC Build migration. The data
+# dump contains real customer PII + storage object paths. Local-only; delete
+# after the restore is verified (same discipline as .env.restore.local).
+supabase/dump-*.sql
