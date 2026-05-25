@@ -40,21 +40,21 @@ const team = [
     name: "Karen Van Den Engel",
     role: "Founder & CEO",
     image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695a6292259ab924ff961e1d/347dcf422_KarenHeadshot.png",
+      "/team/karen.png",
     bio: "20+ years across project management, property development, and construction delivery. Karen leads MMC Build's strategy, partnerships, and industry alignment.",
   },
   {
     name: "Michael Van Den Engel",
     role: "Co-Founder",
     image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695a6292259ab924ff961e1d/88a2a3688_MichaelHeadshot.png",
+      "/team/michael.png",
     bio: "30+ years in building and site management. Michael brings deep construction knowledge and national industry networks.",
   },
   {
     name: "Karthik Rao",
     role: "Co-Founder & CTO",
     image:
-      "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695a6292259ab924ff961e1d/8c3d9d16b_KarthikHeadshot.jpg",
+      "/team/karthik.jpg",
     bio: "20+ years of experience building enterprise technology and AI-driven products across telecommunications, infrastructure, and financial services. Karthik leads MMC Build's technology strategy and AI-enabled innovative solutions.",
   },
 ];

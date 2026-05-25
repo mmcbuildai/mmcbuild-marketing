@@ -20,7 +20,7 @@ const technologies = [
 ];
 
 const KIT_OF_PARTS_IMAGE =
-  "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695a6292259ab924ff961e1d/fecc6f54e_image.png";
+  "/img/kit-of-parts.png";
 
 export default function MMCBuildPage() {
   return (
