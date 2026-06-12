@@ -117,33 +117,45 @@ export default function MMCSuppliersPage() {
       </section>
 
       <section className="py-16 bg-slate-50">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-4">
-            Why MMC Build
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 text-balance">
-            Stop paying for leads that go nowhere
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-slate-600 leading-relaxed text-pretty">
-            Most suppliers and trades spend thousands every month on marketing,
-            directories, Google Ads, industry events, sponsorships, and sales teams
-            &mdash; hoping the right builder or architect finds them.
-          </p>
-          <p className="mt-8 text-xl font-semibold text-slate-900">
-            The problem?{" "}
-            <span className="font-normal text-slate-600">
-              Most enquiries aren&apos;t ready to buy.
-            </span>
-          </p>
-          <p className="mt-10 text-2xl sm:text-3xl font-bold text-blue-600">
-            MMC Build is different.
-          </p>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 leading-relaxed text-pretty">
-            We&apos;re building Australia&apos;s first AI-powered Modern Methods of
-            Construction (MMC) ecosystem that connects builders, developers, architects,
-            engineers, certifiers and consultants directly with verified suppliers and
-            trades &mdash; when they&apos;re actively working on a real project.
-          </p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-4">
+                Why MMC Build
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 text-balance">
+                Stop paying for leads that go nowhere
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed text-pretty">
+                Most suppliers and trades spend thousands every month on marketing,
+                directories, Google Ads, industry events, sponsorships, and sales teams
+                &mdash; hoping the right builder or architect finds them.
+              </p>
+              <p className="mt-8 text-xl font-semibold text-slate-900">
+                The problem?{" "}
+                <span className="font-normal text-slate-600">
+                  Most enquiries aren&apos;t ready to buy.
+                </span>
+              </p>
+              <p className="mt-10 text-2xl sm:text-3xl font-bold text-blue-600">
+                MMC Build is different.
+              </p>
+              <p className="mt-6 text-lg text-slate-600 leading-relaxed text-pretty">
+                We&apos;re building Australia&apos;s first AI-powered Modern Methods of
+                Construction (MMC) ecosystem that connects builders, developers, architects,
+                engineers, certifiers and consultants directly with verified suppliers and
+                trades &mdash; when they&apos;re actively working on a real project.
+              </p>
+            </div>
+            <div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/img/kit-of-parts.png"
+                alt="MMC kit of parts — modular building systems and components"
+                className="w-full rounded-2xl shadow-xl"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
