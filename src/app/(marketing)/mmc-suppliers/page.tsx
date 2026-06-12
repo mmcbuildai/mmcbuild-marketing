@@ -116,7 +116,7 @@ export default function MMCSuppliersPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-slate-50">
+      <section className="py-16 bg-slate-50">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-4">
             Why MMC Build
@@ -147,9 +147,9 @@ export default function MMCSuppliersPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">
                 Why Suppliers Are Joining MMC Build
@@ -160,18 +160,18 @@ export default function MMCSuppliersPage() {
                     <div className="flex-shrink-0 mt-1">
                       <CheckCircle2 className="h-7 w-7 text-green-600" />
                     </div>
-                    <p className="text-xl text-slate-700">{benefit}</p>
+                    <p className="text-lg sm:text-xl text-slate-700">{benefit}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-6 border border-blue-100">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-6 sm:p-8 border border-blue-100">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 w-full">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="bg-white rounded-xl p-4 text-center">
-                    <stat.icon className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                    <div className="text-xl font-bold text-slate-900 mb-1">{stat.value}</div>
-                    <div className="text-xs text-slate-600">{stat.label}</div>
+                  <div key={stat.label} className="bg-white rounded-xl p-5 text-center">
+                    <stat.icon className="h-7 w-7 text-blue-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-slate-900 mb-1">{stat.value}</div>
+                    <div className="text-xs sm:text-sm text-slate-600">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -180,7 +180,7 @@ export default function MMCSuppliersPage() {
         </div>
       </section>
 
-      <section id="pricing" className="py-24 bg-white">
+      <section id="pricing" className="py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
@@ -227,7 +227,7 @@ export default function MMCSuppliersPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-slate-50">
+      <section className="py-16 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-slate-900 text-center mb-12">
             Complete Feature Breakdown
@@ -289,7 +289,7 @@ export default function MMCSuppliersPage() {
         </div>
       </section>
 
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">
             Ready to Join the MMC Directory?
