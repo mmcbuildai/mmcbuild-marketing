@@ -108,6 +108,22 @@ const stats = [
   { icon: Award, label: "Client Satisfaction", value: "4.8/5" },
 ];
 
+const qualifiedLeadIncludes = [
+  "Named project contact",
+  "Phone and email details",
+  "Active project enquiry",
+  "User selection of your company or products within MMC Build",
+  "Project plans, quote request or supporting documentation where available",
+];
+
+const foundingSupplierBenefits = [
+  "Founding Supplier status",
+  "Priority positioning within the platform",
+  "Early access to project opportunities",
+  "Enhanced supplier visibility",
+  "Access to future supplier features and programs",
+];
+
 export default function MMCSuppliersPage() {
   return (
     <div className="min-h-screen">
@@ -212,11 +228,11 @@ export default function MMCSuppliersPage() {
             <p className="text-lg text-slate-600">Choose the plan that best fits your business</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`rounded-3xl p-8 border-2 ${
+                className={`rounded-3xl p-8 sm:p-10 border-2 ${
                   plan.popular
                     ? "border-blue-500 bg-blue-50 relative"
                     : "border-slate-200 bg-white"
@@ -228,12 +244,14 @@ export default function MMCSuppliersPage() {
                   </div>
                 )}
                 <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{plan.name}</h3>
-                  <p className="text-sm text-slate-600 mb-4 min-h-[2.5rem]">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+                    {plan.name}
+                  </h3>
+                  <p className="text-base text-slate-600 mb-4 min-h-[2.5rem]">
                     {plan.description}
                   </p>
                   <div className="flex items-baseline justify-center">
-                    <span className="text-4xl font-bold text-slate-900">{plan.price}</span>
+                    <span className="text-5xl font-bold text-slate-900">{plan.price}</span>
                     <span className="text-slate-600 ml-1">{plan.period}</span>
                   </div>
                   {plan.priceNote && (
@@ -270,6 +288,53 @@ export default function MMCSuppliersPage() {
               <span className="font-semibold text-slate-600">**</span> Payment is
               due only when a qualified lead is verified by the Growth Partner.
             </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto mt-12 grid lg:grid-cols-2 gap-6 text-left">
+            <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">
+                What Is A Qualified Project Lead?
+              </h3>
+              <p className="text-slate-600 mb-4">A Qualified Project Lead includes:</p>
+              <ul className="space-y-3 mb-6">
+                {qualifiedLeadIncludes.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-slate-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="font-semibold text-slate-900">
+                You only pay when a qualified project opportunity is delivered.
+              </p>
+            </div>
+            <div className="bg-blue-50 rounded-2xl p-8 border border-blue-100">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">
+                Founding Supplier Offer
+              </h3>
+              <p className="text-slate-600 mb-3">
+                To support the launch of MMC Build, Founding Suppliers will receive a
+                special lead referral rate of $250 per Qualified Project Lead.
+              </p>
+              <p className="text-slate-600 mb-5">
+                As the platform grows and project volumes increase, lead pricing may
+                increase for future suppliers.
+              </p>
+              <p className="font-semibold text-slate-900 mb-3">
+                Early adopters will secure:
+              </p>
+              <ul className="space-y-3 mb-6">
+                {foundingSupplierBenefits.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-slate-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="font-semibold text-blue-700">
+                Limited positions available before public launch.
+              </p>
+            </div>
           </div>
         </div>
       </section>
