@@ -19,41 +19,52 @@ const benefits = [
 
 type Plan = {
   name: string;
+  description: string;
   price: string;
   period: string;
-  trial: string;
+  priceNote?: string;
+  includesLabel: string;
   features: string[];
+  footnote?: string;
   popular?: boolean;
 };
 
 const plans: Plan[] = [
   {
-    name: "Basic Directory",
-    price: "$99",
+    name: "Verified Directory Supplier",
+    description:
+      "Ideal for suppliers who want visibility within Australia's growing MMC ecosystem.",
+    price: "$299",
     period: "/month",
-    trial: "First 2 months free",
+    includesLabel: "Includes:",
     features: [
-      "Basic directory listing",
-      "Company profile page",
-      "Contact information display",
-      "MMC capability tags",
-      "Search visibility",
+      "Verified supplier profile",
+      "Company listing within MMC Directory",
+      "Product and service categories",
+      "Contact details and website links",
+      "National visibility to builders, developers, architects and consultants",
+      "Access to Australia's growing MMC ecosystem",
+      "1 month free registration",
     ],
+    footnote:
+      "Your business can be discovered through directory searches and supplier profiles, but does not receive direct lead referrals.",
   },
   {
-    name: "Professional Directory",
-    price: "$499",
+    name: "Growth Partner",
+    description:
+      "Designed for suppliers who want to actively generate project opportunities.",
+    price: "$299",
     period: "/month",
-    trial: "First 2 months free",
+    priceNote: "Plus $250 Founder Rate* Per Qualified Project Lead**",
     popular: true,
+    includesLabel: "Includes everything in Verified Directory, plus:",
     features: [
-      "Featured directory placement",
-      "Enhanced company profile",
-      "Portfolio showcase",
-      "Project case studies",
-      "Priority search ranking",
-      "Verified badge",
-      "Lead notifications",
+      "AI-powered supplier recommendations",
+      "Qualified lead referrals",
+      "Priority supplier positioning",
+      "Project enquiry notifications",
+      "Daily lead reporting",
+      "Access to project opportunities generated through MMC Build",
     ],
   },
 ];
@@ -218,14 +229,22 @@ export default function MMCSuppliersPage() {
                 )}
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">{plan.name}</h3>
-                  <div className="text-green-600 font-semibold mb-4">{plan.trial}</div>
+                  <p className="text-sm text-slate-600 mb-4 min-h-[2.5rem]">
+                    {plan.description}
+                  </p>
                   <div className="flex items-baseline justify-center">
                     <span className="text-4xl font-bold text-slate-900">{plan.price}</span>
                     <span className="text-slate-600 ml-1">{plan.period}</span>
                   </div>
+                  {plan.priceNote && (
+                    <p className="mt-2 text-sm font-semibold text-blue-600">
+                      {plan.priceNote}
+                    </p>
+                  )}
                 </div>
 
-                <ul className="space-y-3 mb-8">
+                <p className="font-semibold text-slate-900 mb-3">{plan.includesLabel}</p>
+                <ul className="space-y-3 mb-6">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
                       <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -233,6 +252,11 @@ export default function MMCSuppliersPage() {
                     </li>
                   ))}
                 </ul>
+                {plan.footnote && (
+                  <p className="text-sm text-slate-500 italic border-t border-slate-200 pt-4">
+                    {plan.footnote}
+                  </p>
+                )}
               </div>
             ))}
           </div>
