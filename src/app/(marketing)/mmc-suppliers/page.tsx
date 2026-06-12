@@ -70,25 +70,46 @@ const plans: Plan[] = [
 ];
 
 type FeatureRow = [string, boolean, boolean];
+// Columns: [Verified Directory Supplier, Growth Partner].
+// Growth Partner includes everything in Verified Directory, plus the
+// lead-generation layer, so every Verified feature is true in both columns.
 const featureSections: { title: string; rows: FeatureRow[] }[] = [
   {
-    title: "Trade & Suppliers Features",
+    title: "Directory Listing & Visibility",
     rows: [
+      ["Verified supplier profile", true, true],
       ["ABN & licence verification", true, true],
-      ["Public directory listing", true, true],
+      ["Company listing in MMC Directory", true, true],
+      ["Product & service categories", true, true],
       ["MMC capability tagging", true, true],
+      ["Contact details & website links", true, true],
+      ["Directory search discoverability", true, true],
+      [
+        "National visibility to builders, developers, architects & consultants",
+        true,
+        true,
+      ],
     ],
   },
   {
-    title: "Lead & Tender Access",
+    title: "Lead Generation & Referrals",
     rows: [
+      ["AI-powered supplier recommendations", false, true],
+      ["Qualified lead referrals", false, true],
+      ["Project enquiry notifications", false, true],
       ["Receive project invitations", false, true],
       ["Respond to tenders via platform", false, true],
-      ["Profile visibility to users", false, true],
+      ["Profile visibility to active project owners", false, true],
+      ["Access to project opportunities generated through MMC Build", false, true],
+      ["Priority supplier positioning", false, true],
     ],
   },
   {
-    title: "Enterprise Control Features",
+    title: "Reporting & Insights",
+    rows: [["Daily lead reporting", false, true]],
+  },
+  {
+    title: "Enterprise Controls",
     rows: [["Multi-organisation management", false, true]],
   },
   {
@@ -98,6 +119,10 @@ const featureSections: { title: string; rows: FeatureRow[] }[] = [
       ["Priority support & escalation", false, true],
       ["Custom onboarding & training", false, true],
     ],
+  },
+  {
+    title: "Onboarding & Offers",
+    rows: [["1 month free registration", true, true]],
   },
 ];
 
