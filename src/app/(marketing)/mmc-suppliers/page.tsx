@@ -304,9 +304,6 @@ export default function MMCSuppliersPage() {
                   </li>
                 ))}
               </ul>
-              <p className="font-semibold text-slate-900">
-                You only pay when a qualified project opportunity is delivered.
-              </p>
             </div>
             <div className="bg-blue-50 rounded-2xl p-8 border border-blue-100">
               <h3 className="text-xl font-bold text-slate-900 mb-4">
@@ -353,10 +350,10 @@ export default function MMCSuppliersPage() {
                     <tr>
                       <th className="text-left py-6 px-6 font-bold text-lg w-1/2">Feature</th>
                       <th className="text-center py-6 px-6 font-bold text-lg w-1/4 border-l border-slate-700">
-                        Starter Trades &amp; Suppliers
+                        Verified Directory Supplier
                       </th>
                       <th className="text-center py-6 px-6 font-bold text-lg w-1/4 border-l border-slate-700">
-                        Professional Trades &amp; Suppliers
+                        Growth Partner
                       </th>
                     </tr>
                   </thead>
