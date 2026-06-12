@@ -260,6 +260,17 @@ export default function MMCSuppliersPage() {
               </div>
             ))}
           </div>
+
+          <div className="max-w-4xl mx-auto mt-8 space-y-2 text-sm text-slate-500">
+            <p>
+              <span className="font-semibold text-slate-600">*</span> Founder Rate
+              is a limited-time introductory rate for early Growth Partner members.
+            </p>
+            <p>
+              <span className="font-semibold text-slate-600">**</span> Payment is
+              due only when a qualified lead is verified by the Growth Partner.
+            </p>
+          </div>
         </div>
       </section>
 
