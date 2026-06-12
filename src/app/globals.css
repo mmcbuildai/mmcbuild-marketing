@@ -124,3 +124,43 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Lead-flow graphic animations (mmc-suppliers narrative) */
+@keyframes mmc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes mmc-flow {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+}
+
+.mmc-float {
+  animation: mmc-float 3.5s ease-in-out infinite;
+}
+
+.mmc-flow-dot {
+  animation: mmc-flow 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mmc-float,
+  .mmc-flow-dot {
+    animation: none;
+  }
+}

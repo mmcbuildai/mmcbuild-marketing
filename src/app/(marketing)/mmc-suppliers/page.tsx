@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import type { Metadata } from "next";
 import { CheckCircle2, Users, Award, TrendingUp, Shield } from "lucide-react";
 import TradesSupplierForm from "@/components/marketing/trades-supplier-form";
+import LeadFlowGraphic from "@/components/marketing/lead-flow-graphic";
 
 export const metadata: Metadata = {
   title: "MMC Trades & Suppliers Directory — Join Australia's Leading MMC Network",
@@ -200,12 +201,7 @@ export default function MMCSuppliersPage() {
               </p>
             </div>
             <div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/img/kit-of-parts.png"
-                alt="MMC kit of parts — modular building systems and components"
-                className="w-full rounded-2xl shadow-xl"
-              />
+              <LeadFlowGraphic />
             </div>
           </div>
         </div>
