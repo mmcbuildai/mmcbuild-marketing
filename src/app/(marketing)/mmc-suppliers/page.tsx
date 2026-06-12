@@ -115,7 +115,7 @@ export default function MMCSuppliersPage() {
             Verified MMC Professionals
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-6">
-            Get Found for Your Specialised Skills
+            Turn your products &amp; services into Qualified leads
           </h1>
           <p className="mx-auto max-w-2xl text-xl text-slate-300 mb-4">
             MMC Build isn&apos;t a general marketplace.
