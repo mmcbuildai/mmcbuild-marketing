@@ -10,18 +10,11 @@ export const metadata: Metadata = {
 };
 
 const benefits = [
-  "Be listed as a verified MMC-capable professional",
-  "Advertising to builders, developers, owner builders, engineers and all other construction industry professionals",
-  "Reduce time wasted explaining what MMC you can deliver",
-  "Stand out on quality and capability, not lowest price",
-];
-
-const targetAudience = [
-  "Prefabrication installation",
-  "Panelised system trades",
-  "Modular management",
-  "MMC manufacturers & suppliers",
-  "Consultants experienced in MMC delivery",
+  "Increase visibility of your products with active project stakeholders",
+  "Generate qualified lead opportunities — acting like an additional salesperson for your business",
+  "Have your products referenced within AI-driven design recommendations",
+  "Get your systems specified earlier in the project lifecycle",
+  "Position your business within a verified ecosystem focused on quality, compliance and innovation",
 ];
 
 type Plan = {
@@ -114,14 +107,35 @@ export default function MMCSuppliersPage() {
             <Award className="h-4 w-4 mr-2" />
             Verified MMC Professionals
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-6">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl xl:whitespace-nowrap mb-6">
             Turn your products &amp; services into Qualified leads
           </h1>
-          <p className="mx-auto max-w-2xl text-xl text-slate-300 mb-4">
-            MMC Build isn&apos;t a general marketplace.
+          <p className="mx-auto max-w-2xl text-xl text-slate-300">
+            Australia&apos;s first AI-enabled MMC Marketplace.
           </p>
-          <p className="mx-auto max-w-2xl text-2xl font-bold text-blue-400">
-            It&apos;s a verified MMC ecosystem.
+        </div>
+      </section>
+
+      <section className="py-24 bg-slate-50">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">
+            Turn Your Products Into Qualified Leads
+          </h2>
+          <p className="text-lg text-slate-600 leading-relaxed mb-6">
+            Most suppliers and trades spend thousands every month on marketing,
+            directories, Google Ads, industry events, sponsorships, and sales teams
+            &mdash; hoping the right builder or architect finds them.
+          </p>
+          <p className="text-xl font-semibold text-slate-900 mb-2">The problem?</p>
+          <p className="text-lg text-slate-600 leading-relaxed mb-6">
+            Most enquiries aren&apos;t ready to buy.
+          </p>
+          <p className="text-2xl font-bold text-blue-600 mb-6">MMC Build is different.</p>
+          <p className="text-lg text-slate-600 leading-relaxed">
+            We&apos;re building Australia&apos;s first AI-powered Modern Methods of
+            Construction (MMC) ecosystem that connects builders, developers, architects,
+            engineers, certifiers and consultants directly with verified suppliers and
+            trades &mdash; when they&apos;re actively working on a real project.
           </p>
         </div>
       </section>
@@ -130,52 +144,31 @@ export default function MMCSuppliersPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Why Join MMC Directory</h2>
-              <div className="space-y-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">
+                Why Suppliers Are Joining MMC Build
+              </h2>
+              <div className="space-y-5">
                 {benefits.map((benefit) => (
                   <div key={benefit} className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-1">
-                      <CheckCircle2 className="h-6 w-6 text-green-600" />
+                      <CheckCircle2 className="h-7 w-7 text-green-600" />
                     </div>
-                    <p className="text-lg text-slate-700">{benefit}</p>
+                    <p className="text-xl text-slate-700">{benefit}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-8 border border-blue-100">
-              <div className="grid grid-cols-2 gap-6">
+            <div className="bg-gradient-to-br from-blue-50 to-teal-50 rounded-3xl p-6 border border-blue-100">
+              <div className="grid grid-cols-2 gap-4">
                 {stats.map((stat) => (
-                  <div key={stat.label} className="bg-white rounded-xl p-6 text-center">
-                    <stat.icon className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                    <div className="text-2xl font-bold text-slate-900 mb-1">{stat.value}</div>
-                    <div className="text-sm text-slate-600">{stat.label}</div>
+                  <div key={stat.label} className="bg-white rounded-xl p-4 text-center">
+                    <stat.icon className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+                    <div className="text-xl font-bold text-slate-900 mb-1">{stat.value}</div>
+                    <div className="text-xs text-slate-600">{stat.label}</div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Who It&apos;s For</h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Construction Builders, Trades, Consultants and Suppliers with experience in:
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {targetAudience.map((item) => (
-              <div
-                key={item}
-                className="bg-white rounded-xl p-6 border border-slate-200 flex items-center gap-3"
-              >
-                <CheckCircle2 className="h-5 w-5 text-blue-600 flex-shrink-0" />
-                <span className="text-slate-800 font-medium">{item}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
