@@ -105,8 +105,8 @@ export default function InvestorsPage() {
       {/* Hero */}
       <section className="relative bg-[#0f172a] text-white overflow-hidden py-24 sm:py-28">
         <div className="absolute top-0 left-1/2 w-[800px] h-[400px] -translate-x-1/2 bg-blue-600/20 blur-[100px] rounded-full pointer-events-none" />
-        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center z-10 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-6 lg:whitespace-nowrap">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center z-10 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-6">
             The Operating System for Construction
           </h1>
           <p className="mx-auto max-w-2xl text-lg sm:text-xl text-slate-300 mb-10">
@@ -120,7 +120,7 @@ export default function InvestorsPage() {
             Contact to Discuss <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
 
-          <div className="mt-16 border-t border-white/10">
+          <div className="mt-16 max-w-4xl mx-auto border-t border-white/10">
             <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
               {heroStats.map((s) => (
                 <div key={s.label} className="px-4 py-6">

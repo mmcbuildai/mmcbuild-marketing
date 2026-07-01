@@ -18,6 +18,7 @@ const primaryLinks = [
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },
   { name: "Case Studies", href: "/case-studies" },
+  { name: "Investors", href: "/investors" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -154,6 +155,11 @@ export default function MarketingLayout({
                 <li>
                   <Link href="/about" className="hover:text-white transition-colors">
                     About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/investors" className="hover:text-white transition-colors">
+                    Investors
                   </Link>
                 </li>
                 <li>
