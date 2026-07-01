@@ -32,10 +32,10 @@ type Plan = {
 
 const plans: Plan[] = [
   {
-    name: "Verified Directory Supplier",
+    name: "Verified Suppliers",
     description:
       "Ideal for suppliers who want visibility within Australia's growing MMC ecosystem.",
-    price: "$299",
+    price: "$199",
     period: "/month",
     includesLabel: "Includes:",
     features: [
@@ -45,6 +45,7 @@ const plans: Plan[] = [
       "Contact details and website links",
       "National visibility to builders, developers, architects and consultants",
       "Access to Australia's growing MMC ecosystem",
+      "Access to MMC Build, MMC Comply and MMC Train",
       "1 month free registration",
     ],
     footnote:
@@ -66,6 +67,7 @@ const plans: Plan[] = [
       "Project enquiry notifications",
       "Daily lead reporting",
       "Access to project opportunities generated through MMC Build",
+      "Access to MMC Build, MMC Comply and MMC Train",
     ],
   },
 ];
@@ -90,6 +92,7 @@ const featureSections: { title: string; rows: FeatureRow[] }[] = [
         true,
         true,
       ],
+      ["Access to MMC Build, MMC Comply & MMC Train", true, true],
     ],
   },
   {
@@ -371,7 +374,7 @@ export default function MMCSuppliersPage() {
                     <tr>
                       <th className="text-left py-6 px-6 font-bold text-lg w-1/2">Feature</th>
                       <th className="text-center py-6 px-6 font-bold text-lg w-1/4 border-l border-slate-700">
-                        Verified Directory Supplier
+                        Verified Suppliers
                       </th>
                       <th className="text-center py-6 px-6 font-bold text-lg w-1/4 border-l border-slate-700">
                         Growth Partner

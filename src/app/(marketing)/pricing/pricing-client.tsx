@@ -8,6 +8,8 @@ import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 type Plan = {
   name: string;
   monthlyPrice: number | null;
+  introPrice?: number;
+  introLabel?: string;
   description: string;
   freeNote?: string;
   features: string[];
@@ -17,10 +19,11 @@ type Plan = {
 
 const plans: Plan[] = [
   {
-    name: "Basic",
-    monthlyPrice: 149,
+    name: "Essential",
+    monthlyPrice: 99,
+    introPrice: 49,
+    introLabel: "Early adopter special",
     description: "Individual builders, architects, designers, early adopters",
-    freeNote: "Available free for 1 month",
     features: [
       "10 combined runs / month (MMC Build + MMC Comply)",
       "5 plan uploads per month",
@@ -36,7 +39,9 @@ const plans: Plan[] = [
   },
   {
     name: "Professional",
-    monthlyPrice: 399,
+    monthlyPrice: 299,
+    introPrice: 199,
+    introLabel: "Intro price",
     description: "Active builders, architects & consultants managing multiple projects",
     features: [
       "30 combined runs / month (MMC Build + MMC Comply)",
@@ -181,8 +186,8 @@ const faqs = [
     a: "Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.",
   },
   {
-    q: "Is there a free trial?",
-    a: "Yes! Our Basic plan is available free for 1 month so you can explore all the essential features.",
+    q: "Do you offer an early adopter discount?",
+    a: "Yes! Early adopters can get the Essential plan for $49/month (normally $99) and the Professional plan at an intro price of $199/month (normally $299).",
   },
   {
     q: "What payment methods do you accept?",
@@ -197,11 +202,14 @@ const faqs = [
 export function PricingClient() {
   const [isAnnual, setIsAnnual] = React.useState(false);
 
+  const withAnnual = (amount: number): number =>
+    isAnnual ? Math.round(amount * 0.8) : amount;
+
   const getPrice = (plan: Plan): string => {
     if (plan.monthlyPrice === 0) return "Free";
     if (plan.monthlyPrice === null) return "Custom";
-    const price = isAnnual ? Math.round(plan.monthlyPrice * 0.8) : plan.monthlyPrice;
-    return `$${price}`;
+    const base = plan.introPrice ?? plan.monthlyPrice;
+    return `$${withAnnual(base)}`;
   };
 
   const getPeriod = (plan: Plan): string => {
@@ -284,7 +292,7 @@ export function PricingClient() {
                   >
                     {plan.name}
                   </h3>
-                  <div className="flex items-baseline gap-1">
+                  <div className="flex items-baseline gap-2">
                     <span
                       className={`text-3xl font-extrabold ${
                         plan.popular ? "text-white" : "text-slate-900"
@@ -292,17 +300,33 @@ export function PricingClient() {
                     >
                       {getPrice(plan)}
                     </span>
+                    {plan.introPrice != null && plan.monthlyPrice != null && (
+                      <span
+                        className={`text-lg font-semibold line-through ${
+                          plan.popular ? "text-slate-500" : "text-slate-400"
+                        }`}
+                      >
+                        ${withAnnual(plan.monthlyPrice)}
+                      </span>
+                    )}
                     <span className={plan.popular ? "text-slate-400" : "text-slate-500"}>
                       {getPeriod(plan)}
                     </span>
                   </div>
+                  {plan.introLabel && plan.introPrice != null && (
+                    <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-green-50 border border-green-200 px-3 py-1">
+                      <Sparkles className="h-3 w-3 text-green-600" />
+                      <span className="text-xs font-bold text-green-700">{plan.introLabel}</span>
+                    </div>
+                  )}
                   {isAnnual && plan.monthlyPrice && plan.monthlyPrice > 0 && (
                     <p
                       className={`mt-1 text-xs ${
                         plan.popular ? "text-slate-400" : "text-slate-500"
                       }`}
                     >
-                      Billed annually at ${Math.round(plan.monthlyPrice * 0.8 * 12)}
+                      Billed annually at $
+                      {Math.round((plan.introPrice ?? plan.monthlyPrice) * 0.8 * 12)}
                     </p>
                   )}
                   <p
@@ -378,7 +402,7 @@ export function PricingClient() {
                     <tr>
                       <th className="w-2/5 px-4 py-4 text-left text-sm font-bold sm:px-6 sm:py-6 sm:text-lg">Feature</th>
                       <th className="w-1/5 border-l border-slate-700 px-3 py-4 text-center text-sm font-bold sm:px-6 sm:py-6 sm:text-lg">
-                        Basic
+                        Essential
                       </th>
                       <th className="w-1/5 border-l border-slate-700 px-3 py-4 text-center text-sm font-bold sm:px-6 sm:py-6 sm:text-lg">
                         Professional
