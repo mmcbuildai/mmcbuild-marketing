@@ -4,6 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import { TAX_QUALIFIER, TAX_DISCLOSURE } from "@/lib/pricing/tax";
+import { isSupplierPricingEnabled } from "@/lib/pricing/supplier-pricing";
 
 type Plan = {
   name: string;
@@ -187,7 +189,9 @@ const faqs = [
   },
   {
     q: "Do you offer an early adopter discount?",
-    a: "Yes! Early adopters can get the Essential plan for $49/month (normally $99) and the Professional plan at an intro price of $199/month (normally $299).",
+    // Prose prices need the qualifier as much as the plan cards do — this
+    // answer quotes four figures and was the last unqualified price on the site.
+    a: "Yes! Early adopters can get the Essential plan for $49/month + GST (normally $99 + GST) and the Professional plan at an intro price of $199/month + GST (normally $299 + GST). All prices exclude GST.",
   },
   {
     q: "What payment methods do you accept?",
@@ -212,9 +216,12 @@ export function PricingClient() {
     return `$${withAnnual(base)}`;
   };
 
+  // Prices are quoted GST-exclusive, so the period carries the qualifier — see
+  // lib/pricing/tax.ts. "Free" and "Custom" get none: there is no amount for
+  // GST to apply to, and Enterprise is quoted per deal.
   const getPeriod = (plan: Plan): string => {
     if (plan.monthlyPrice === 0 || plan.monthlyPrice === null) return "";
-    return "/month";
+    return `/month ${TAX_QUALIFIER}`;
   };
 
   return (
@@ -256,8 +263,12 @@ export function PricingClient() {
       <section className="py-12 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
+            <p className="text-sm text-slate-600 mb-3">{TAX_DISCLOSURE}</p>
             <p className="text-slate-600 text-lg">
-              For Trades &amp; Suppliers pricing, please click{" "}
+              {/* Don't promise "pricing" on a page whose prices are hidden. */}
+              {isSupplierPricingEnabled()
+                ? "For Trades & Suppliers pricing, please click "
+                : "For Trades & Suppliers directory listings, please click "}
               <Link
                 href="/mmc-suppliers#pricing"
                 className="text-blue-600 hover:text-blue-700 font-semibold underline"
@@ -326,7 +337,8 @@ export function PricingClient() {
                       }`}
                     >
                       Billed annually at $
-                      {Math.round((plan.introPrice ?? plan.monthlyPrice) * 0.8 * 12)}
+                      {Math.round((plan.introPrice ?? plan.monthlyPrice) * 0.8 * 12)}{" "}
+                      {TAX_QUALIFIER}
                     </p>
                   )}
                   <p

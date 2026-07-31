@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { CheckCircle2, Users, Award, TrendingUp, Shield } from "lucide-react";
 import TradesSupplierForm from "@/components/marketing/trades-supplier-form";
 import LeadFlowGraphic from "@/components/marketing/lead-flow-graphic";
+import { TAX_QUALIFIER, TAX_DISCLOSURE } from "@/lib/pricing/tax";
+import { isSupplierPricingEnabled } from "@/lib/pricing/supplier-pricing";
 
 export const metadata: Metadata = {
   title: "MMC Trades & Suppliers Directory — Join Australia's Leading MMC Network",
@@ -24,6 +26,12 @@ type Plan = {
   price: string;
   period: string;
   priceNote?: string;
+  /**
+   * A commercial OFFER, not a capability — so it lives here rather than in
+   * `features` and hides with the rest of the price claims. "1 month free"
+   * only means something relative to a price we can't currently charge.
+   */
+  offer?: string;
   includesLabel: string;
   features: string[];
   footnote?: string;
@@ -46,8 +54,8 @@ const plans: Plan[] = [
       "National visibility to builders, developers, architects and consultants",
       "Access to Australia's growing MMC ecosystem",
       "Access to MMC Build, MMC Comply and MMC Train",
-      "1 month free registration",
     ],
+    offer: "1 month free registration",
     footnote:
       "Your business can be discovered through directory searches and supplier profiles, but does not receive direct lead referrals.",
   },
@@ -76,7 +84,12 @@ type FeatureRow = [string, boolean, boolean];
 // Columns: [Verified Directory Supplier, Growth Partner].
 // Growth Partner includes everything in Verified Directory, plus the
 // lead-generation layer, so every Verified feature is true in both columns.
-const featureSections: { title: string; rows: FeatureRow[] }[] = [
+const featureSections: {
+  title: string;
+  rows: FeatureRow[];
+  /** Section states a commercial offer, so it hides when pricing is hidden. */
+  pricingOnly?: boolean;
+}[] = [
   {
     title: "Directory Listing & Visibility",
     rows: [
@@ -127,6 +140,11 @@ const featureSections: { title: string; rows: FeatureRow[] }[] = [
   {
     title: "Onboarding & Offers",
     rows: [["1 month free registration", true, true]],
+    // The only comparison section that states a commercial OFFER rather than a
+    // capability. Every other row is true whether or not a price is published;
+    // this one promises a free month against a subscription we can't yet sell,
+    // so it hides with the price claims.
+    pricingOnly: true,
   },
 ];
 
@@ -154,6 +172,9 @@ const foundingSupplierBenefits = [
 ];
 
 export default function MMCSuppliersPage() {
+  // Supplier tiers aren't sellable yet — see lib/pricing/supplier-pricing.ts.
+  const showPricing = isSupplierPricingEnabled();
+
   return (
     <div className="min-h-screen">
       <section className="relative bg-[#0f172a] text-white overflow-hidden py-24">
@@ -247,9 +268,15 @@ export default function MMCSuppliersPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              MMC Trades &amp; Suppliers Directory Pricing
+              {showPricing
+                ? "MMC Trades & Suppliers Directory Pricing"
+                : "MMC Trades & Suppliers Directory Listings"}
             </h2>
-            <p className="text-lg text-slate-600">Choose the plan that best fits your business</p>
+            <p className="text-lg text-slate-600">
+              {showPricing
+                ? "Choose the plan that best fits your business"
+                : "Two levels of listing. Register your interest below and we'll be in touch with availability and pricing."}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -274,14 +301,28 @@ export default function MMCSuppliersPage() {
                   <p className="text-base text-slate-600 mb-4 min-h-[2.5rem]">
                     {plan.description}
                   </p>
-                  <div className="flex items-baseline justify-center">
-                    <span className="text-5xl font-bold text-slate-900">{plan.price}</span>
-                    <span className="text-slate-600 ml-1">{plan.period}</span>
-                  </div>
-                  {plan.priceNote && (
-                    <p className="mt-2 text-sm font-semibold text-blue-600">
-                      {plan.priceNote}
-                    </p>
+                  {/* Figure, period, Founder-Rate note and the free-month offer
+                      are all price CLAIMS, so they appear and disappear
+                      together — see lib/pricing/supplier-pricing.ts. */}
+                  {showPricing && (
+                    <>
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-5xl font-bold text-slate-900">{plan.price}</span>
+                        <span className="text-slate-600 ml-1">
+                          {plan.period} {TAX_QUALIFIER}
+                        </span>
+                      </div>
+                      {plan.priceNote && (
+                        <p className="mt-2 text-sm font-semibold text-blue-600">
+                          {plan.priceNote}
+                        </p>
+                      )}
+                      {plan.offer && (
+                        <p className="mt-2 text-sm font-semibold text-green-700">
+                          {plan.offer}
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -303,16 +344,23 @@ export default function MMCSuppliersPage() {
             ))}
           </div>
 
-          <div className="max-w-4xl mx-auto mt-8 space-y-2 text-sm text-slate-500">
-            <p>
-              <span className="font-semibold text-slate-600">*</span> Founder Rate
-              is a limited-time introductory rate for early Growth Partner members.
-            </p>
-            <p>
-              <span className="font-semibold text-slate-600">**</span> Payment is
-              due only when a qualified lead is verified by the Growth Partner.
-            </p>
-          </div>
+          {/* These footnotes explain the * and ** markers that live inside
+              plan.priceNote. With pricing hidden there are no markers to
+              explain, so leaving them would strand two asterisks pointing at
+              nothing — and the second one describes payment terms. */}
+          {showPricing && (
+            <div className="max-w-4xl mx-auto mt-8 space-y-2 text-sm text-slate-500">
+              <p>
+                <span className="font-semibold text-slate-600">*</span> Founder Rate
+                is a limited-time introductory rate for early Growth Partner members.
+              </p>
+              <p>
+                <span className="font-semibold text-slate-600">**</span> Payment is
+                due only when a qualified lead is verified by the Growth Partner.
+              </p>
+              <p>{TAX_DISCLOSURE}</p>
+            </div>
+          )}
 
           <div className="max-w-5xl mx-auto mt-12 grid lg:grid-cols-2 gap-6 text-left">
             <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200">
@@ -333,9 +381,12 @@ export default function MMCSuppliersPage() {
               <h3 className="text-xl font-bold text-slate-900 mb-4">
                 Founding Supplier Offer
               </h3>
+              {/* The $250 rate is a price claim; the scarcity framing around it
+                  is not, and still reads correctly on its own. */}
               <p className="text-slate-600 mb-3">
-                To support the launch of MMC Build, Founding Suppliers will receive a
-                special lead referral rate of $250 per Qualified Project Lead.
+                {showPricing
+                  ? "To support the launch of MMC Build, Founding Suppliers will receive a special lead referral rate of $250 per Qualified Project Lead."
+                  : "To support the launch of MMC Build, Founding Suppliers will receive a special introductory lead referral rate."}
               </p>
               <p className="text-slate-600 mb-5">
                 As the platform grows and project volumes increase, lead pricing may
@@ -382,7 +433,9 @@ export default function MMCSuppliersPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {featureSections.map((section) => (
+                    {featureSections
+                      .filter((section) => showPricing || !section.pricingOnly)
+                      .map((section) => (
                       <Fragment key={section.title}>
                         <tr className="bg-slate-100">
                           <td
