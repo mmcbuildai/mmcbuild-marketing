@@ -55,7 +55,11 @@ const products: Product[] = [
       "Identify MMC alternatives (prefab, panelised, modular systems)",
       "Compare traditional vs MMC build approaches",
       'Generate "what-if" constructability scenarios',
-      "Visualise recommended solutions in 3D (Revit-ready)",
+      // "Visualise recommended solutions in 3D (Revit-ready)" — removed for Go
+      // Live 1 (SCRUM-361). 3D rendering is switched off in the product because
+      // multi-storey plans reconstruct incorrectly, and the CAD/BIM exports went
+      // with it, so this line would send ad traffic to a screen that is not
+      // there. RESTORE IT when 3D is switched back on (gated on SCRUM-163).
     ],
     href: "/mmc-build",
     color: "text-teal-600",
