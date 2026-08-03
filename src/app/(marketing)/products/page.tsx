@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ctaHref, ctaLabel } from "@/lib/marketing/purchase-cta";
 import {
   ArrowRight,
   Hammer,
@@ -192,8 +193,8 @@ export default function ProductsPage() {
             Join the waitlist to get early access to our complete MMC Suite.
           </p>
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-10">
-            <Link href="/contact">
-              Join Waitlist <ArrowRight className="ml-2 h-5 w-5" />
+            <Link href={ctaHref("/contact")}>
+              {ctaLabel()} <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
         </div>
