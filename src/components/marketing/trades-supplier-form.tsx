@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { LeadInput } from "@/lib/validators/lead";
+import { leadAttributionFields } from "@/lib/attribution/first-touch";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -73,6 +74,10 @@ export default function TradesSupplierForm() {
       interest: "",
       message: "",
       sourcePage: typeof window !== "undefined" ? window.location.href : "",
+      // Carries the first touch (campaign, click id) and the HubSpot visitor
+      // token. Read here in the browser because this POST is cross-origin to
+      // the app and therefore cannot send this site's cookies.
+      ...leadAttributionFields(),
     };
 
     try {
