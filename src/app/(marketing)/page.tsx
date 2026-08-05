@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Hammer, FileCheck, Users, GraduationCap, Bot } from "lucide-react";
+import SocialProof from "@/components/marketing/social-proof";
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -210,6 +211,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Partners + testimonials. Renders nothing until real, consented
+          content exists AND the switch is on — see lib/marketing/social-proof.ts. */}
+      <SocialProof />
 
     </div>
   );
