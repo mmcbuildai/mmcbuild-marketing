@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import HubSpotTracking from "@/components/analytics/hubspot-tracking";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,6 +32,10 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        {/* HubSpot visitor tracking + first-touch campaign capture. This is the
+            site the ads point at, so it is the site where attribution begins.
+            Renders nothing until NEXT_PUBLIC_HUBSPOT_PORTAL_ID is set. */}
+        <HubSpotTracking />
       </body>
     </html>
   );
