@@ -49,6 +49,48 @@ const nextConfig: NextConfig = {
         destination: "https://app.mmcbuild.com.au/privacy",
         permanent: true,
       },
+
+      /**
+       * App routes typed against the brochure domain.
+       *
+       * The product lives on app.mmcbuild.com.au and the brochure site on
+       * mmcbuild.com.au. Every product route therefore 404s here — /dashboard,
+       * /billing, /login, /signup and the five modules, all of them.
+       *
+       * Nothing we publish sends anyone to those addresses: every button in
+       * this site already uses an absolute app.mmcbuild.com.au URL. This is for
+       * the person who TYPES it, and they have a good reason to. The domain on
+       * the advertising is mmcbuild.com.au, and our own Terms of Use tell
+       * customers to cancel "from the Billing page in your account" without
+       * saying which host that is. Guessing the main domain is the reasonable
+       * thing to do, and a 404 is a poor answer to someone trying to cancel.
+       *
+       * `permanent` deliberately: these paths will never be served here, so
+       * search engines should stop indexing them as errors. If a marketing page
+       * ever legitimately needs one of these names, this entry has to be removed
+       * first — a cached 308 would otherwise mask it.
+       *
+       * ⚠️ Only routes this site does NOT own. /pricing exists on both and is
+       * the marketing one; the module pages here are /mmc-build, /mmc-quote and
+       * so on, which is why /build and /quote below are free to redirect.
+       */
+      ...[
+        "login",
+        "signup",
+        "dashboard",
+        "billing",
+        "settings",
+        "projects",
+        "comply",
+        "build",
+        "quote",
+        "direct",
+        "train",
+      ].map((route) => ({
+        source: `/${route}`,
+        destination: `https://app.mmcbuild.com.au/${route}`,
+        permanent: true,
+      })),
     ];
   },
 };
