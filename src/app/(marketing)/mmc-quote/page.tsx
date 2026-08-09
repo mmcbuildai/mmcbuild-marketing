@@ -37,12 +37,14 @@ const features = [
     title: '"What-If" Cost Scenarios',
     description:
       "Compare alternative MMC systems, test design changes, and understand cost impact before committing.",
+    comingSoon: true,
   },
   {
     icon: TrendingUp,
     title: "Early-Stage Cost Confidence",
     description:
       "Support feasibility and client discussions while reducing redesign and re-pricing cycles.",
+    comingSoon: true,
   },
   {
     icon: FileText,
@@ -55,7 +57,7 @@ const features = [
 const workflow = [
   { step: "01", title: "Upload to MMC Build", desc: "Submit your plans and specifications", icon: FileCheck },
   { step: "02", title: "Receive Recommendations", desc: "Get MMC system recommendations from the analysis", icon: BarChart3 },
-  { step: "03", title: "Run MMC Quote", desc: "Generate indicative costing, compare alternatives, and explore what-if scenarios", icon: Bot },
+  { step: "03", title: "Run MMC Quote", desc: "Generate indicative costing, compare alternatives, and explore what-if scenarios", icon: Bot, comingSoon: true },
   { step: "04", title: "Export & Share", desc: "Download and share comprehensive cost reports", icon: FileText },
 ];
 
@@ -130,6 +132,11 @@ export default function MMCQuotePage() {
             {workflow.map((step, idx) => (
               <div key={step.step} className="relative">
                 <div className="flex flex-col items-center text-center">
+                  {step.comingSoon && (
+                    <span className="mb-3 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                      Coming Soon
+                    </span>
+                  )}
                   <div className="h-16 w-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-4">
                     <step.icon className="h-8 w-8 text-purple-600" />
                   </div>
@@ -159,8 +166,13 @@ export default function MMCQuotePage() {
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow"
+                className="relative bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow"
               >
+                {feature.comingSoon && (
+                  <span className="absolute top-6 right-6 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                    Coming Soon
+                  </span>
+                )}
                 <div className="h-12 w-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
                   <feature.icon className="h-6 w-6 text-purple-600" />
                 </div>
