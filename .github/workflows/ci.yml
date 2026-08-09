@@ -1,0 +1,71 @@
+name: CI
+
+# This repository's FIRST continuous integration, added 2026-08-09.
+#
+# ⚠️ WORTH STATING PLAINLY, because it is the reason this file exists: until
+# today `www.mmcbuild.com.au` — the public front door, the pages that quote
+# prices and take people to sign-up — had **no CI at all**. No `.github`
+# directory, no typecheck, no tests, no gate. Anything that compiled locally
+# went live.
+#
+# That is how the two sites drifted into showing different prices for the same
+# plan, and how this one came to advertise Essential as "$99, now $49" when no
+# $99 price has ever existed in the Stripe account.
+#
+# It got worse before it got better: an `offer-claims.config.json` was committed
+# here earlier the same day with nothing to run it — a guard that looks like
+# coverage and is not, which is precisely the failure mode `@caistech/portfolio-gate`
+# was built to end. This file is the other half of that change.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Typecheck and offer claims
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version comes from package.json's `packageManager`, matching the
+      # application repo's convention so the two cannot drift.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      # GitHub forbids secrets named with a GITHUB_ prefix, so the token is
+      # stored as GH_PACKAGES_TOKEN and aliased here to the name .npmrc reads.
+      - name: Install dependencies
+        env:
+          GITHUB_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # BLOCKING, deliberately, and only because the count is currently ZERO.
+      #
+      # Every price this site states is checked against what Stripe actually
+      # charges, and every free-trial length against what the product actually
+      # grants. Turning it on while it is clean costs nothing; waiting until it
+      # has findings turns switching it on into an argument, which is how a check
+      # ends up permanently "temporarily" advisory.
+      #
+      # A figure that is legitimately different — a genuine comparison price —
+      # is not a reason to switch this off. It takes one line naming what
+      # substantiates it:
+      #     // @offer-claim-ok: <what this figure is, who confirmed it, when>
+      #
+      # ⚠️ The config's `verifyAgainstStripe` is still OFF, so the declared
+      # prices are only as current as the last person to check them by hand
+      # (2026-08-09). Closing that needs a Stripe restricted key with Prices:Read
+      # in the repo secrets — until then this check can tell you the PAGE
+      # disagrees with the config, but not that the CONFIG has gone stale.
+      - name: Offer claims match Stripe
+        run: pnpm exec portfolio-gate-audit-offer-claims
