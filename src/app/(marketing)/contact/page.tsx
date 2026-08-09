@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Mail, Phone, MapPin } from "lucide-react";
 import ContactForm from "@/components/marketing/contact-form";
 
 export const metadata: Metadata = {
@@ -51,38 +50,6 @@ export default function ContactPage() {
               <p className="text-slate-800 font-semibold text-lg mb-8">
                 We&apos;re here to help you succeed.
               </p>
-
-              <div className="space-y-6 mb-12">
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900">Email</h3>
-                    <p className="text-slate-600">admin@mmcbuild.com.au</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900">Phone</h3>
-                    <p className="text-slate-600">0404 394 225</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-slate-900">Location</h3>
-                    <p className="text-slate-600">New South Wales, Australia</p>
-                  </div>
-                </div>
-              </div>
 
               <div className="bg-slate-50 rounded-2xl p-8">
                 <h3 className="font-semibold text-slate-900 mb-4">Office Hours</h3>
