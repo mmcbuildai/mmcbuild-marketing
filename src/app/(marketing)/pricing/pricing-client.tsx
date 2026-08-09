@@ -26,10 +26,15 @@ type Plan = {
 
 const plans: Plan[] = [
   {
+    // ⚠️ The "was" price is gone, deliberately. This read monthlyPrice 99 with
+    // introPrice 49, rendering "$99" struck through beside "$49". THERE IS NO
+    // $99 PRICE. Stripe charges $49, and no $99 Price object has ever existed in
+    // the live account — so the saving being implied was never available, which
+    // is a representation about a discount rather than a typo.
+    // Corrected against live Stripe 2026-08-09. The introPrice/introLabel
+    // mechanism is kept for a real sale later; only the false figure is gone.
     name: "Essential",
-    monthlyPrice: 99,
-    introPrice: 49,
-    introLabel: "Early adopter special",
+    monthlyPrice: 49,
     description: "Individual builders, architects, designers, early adopters",
     features: [
       "10 combined runs / month (MMC Build + MMC Comply)",
@@ -45,10 +50,12 @@ const plans: Plan[] = [
     popular: false,
   },
   {
+    // Same correction as Essential above. Stripe charges $199 and has no $299
+    // Professional price. The only $299 in the live account is the Growth
+    // Partner SUPPLIER tier — a different product entirely — so "normally $299"
+    // was not a stale figure, it was never this plan's price at all.
     name: "Professional",
-    monthlyPrice: 299,
-    introPrice: 199,
-    introLabel: "Intro price",
+    monthlyPrice: 199,
     description: "Active builders, architects & consultants managing multiple projects",
     features: [
       "30 combined runs / month (MMC Build + MMC Comply)",
@@ -193,10 +200,16 @@ const faqs = [
     a: "Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.",
   },
   {
-    q: "Do you offer an early adopter discount?",
-    // Prose prices need the qualifier as much as the plan cards do — this
-    // answer quotes four figures and was the last unqualified price on the site.
-    a: "Yes! Early adopters can get the Essential plan for $49/month + GST (normally $99 + GST) and the Professional plan at an intro price of $199/month + GST (normally $299 + GST). All prices exclude GST.",
+    q: "What do the plans cost?",
+    // Prose prices need the qualifier as much as the plan cards do.
+    //
+    // ⚠️ This previously answered "Do you offer an early adopter discount?" with
+    // "$49 (normally $99)" and "$199 (normally $299)". Neither "normally" figure
+    // exists: Stripe charges $49 and $199, has no $99 Price at all, and its only
+    // $299 is the Growth Partner supplier tier. Quoting a saving against a price
+    // nobody was ever charged is a claim about a discount, so the question and
+    // the answer were both replaced rather than reworded around the figures.
+    a: "Essential is $49/month + GST and Professional is $199/month + GST. Annual billing saves about 20% on both. Enterprise is custom-priced — talk to us and we will quote it. All prices exclude GST.",
   },
   {
     q: "What payment methods do you accept?",
