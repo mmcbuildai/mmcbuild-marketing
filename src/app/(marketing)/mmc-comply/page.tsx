@@ -203,6 +203,23 @@ export default function MMCComplyPage() {
           </div>
         </section>
       )}
+
+      {/* Final CTA — mirrors the hero button so there's a path to get
+          started even when the waitlist section above is hidden. */}
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Ready to get started?</h2>
+          <Button
+            asChild
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-10"
+          >
+            <a href={ctaHref("#waitlist")}>
+              {ctaLabel()} <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }

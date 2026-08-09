@@ -15,7 +15,6 @@ import {
   Star,
   MapPin,
   Award,
-  Filter,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -25,12 +24,12 @@ export const metadata: Metadata = {
 };
 
 const categories = [
-  { name: "Modular Builders", count: 45 },
-  { name: "CLT Specialists", count: 23 },
-  { name: "Prefab Manufacturers", count: 67 },
-  { name: "Sustainable Consultants", count: 34 },
-  { name: "Structural Engineers", count: 89 },
-  { name: "Certification Bodies", count: 12 },
+  { name: "Modular Builders" },
+  { name: "CLT Specialists" },
+  { name: "Prefab Manufacturers" },
+  { name: "Sustainable Consultants" },
+  { name: "Structural Engineers" },
+  { name: "Certification Bodies" },
 ];
 
 const features = [
@@ -49,11 +48,7 @@ const features = [
     icon: Star,
     title: "Reviews & Ratings",
     description: "Read authentic reviews from other construction professionals.",
-  },
-  {
-    icon: Filter,
-    title: "Advanced Filters",
-    description: "Filter by specialty, location, availability, and more.",
+    comingSoon: true,
   },
 ];
 
@@ -140,12 +135,9 @@ export default function MMCDirectoryPage() {
             {categories.map((cat) => (
               <div
                 key={cat.name}
-                className="bg-slate-50 rounded-2xl p-6 flex items-center justify-between hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all cursor-pointer"
+                className="bg-slate-50 rounded-2xl p-6 flex items-center hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all cursor-pointer"
               >
                 <span className="text-lg font-semibold text-slate-900">{cat.name}</span>
-                <span className="bg-amber-100 text-amber-700 text-sm font-medium px-3 py-1 rounded-full">
-                  {cat.count} listed
-                </span>
               </div>
             ))}
           </div>
@@ -161,12 +153,17 @@ export default function MMCDirectoryPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow"
+                className="relative bg-white rounded-2xl p-8 border border-slate-200 hover:shadow-lg transition-shadow"
               >
+                {feature.comingSoon && (
+                  <span className="absolute top-6 right-6 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                    Coming Soon
+                  </span>
+                )}
                 <div className="h-12 w-12 bg-amber-100 rounded-xl flex items-center justify-center mb-6">
                   <feature.icon className="h-6 w-6 text-amber-600" />
                 </div>
@@ -225,6 +222,23 @@ export default function MMCDirectoryPage() {
           </div>
         </section>
       )}
+
+      {/* Final CTA — mirrors the hero button so there's a path to get
+          started even when the waitlist section above is hidden. */}
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Ready to get started?</h2>
+          <Button
+            asChild
+            size="lg"
+            className="bg-amber-600 hover:bg-amber-700 text-white rounded-full px-10"
+          >
+            <a href={ctaHref("#waitlist")}>
+              {ctaLabel()} <ArrowRight className="ml-2 h-5 w-5" />
+            </a>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
