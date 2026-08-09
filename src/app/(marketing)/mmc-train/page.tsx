@@ -32,11 +32,13 @@ const features = [
     icon: Award,
     title: "Certifications",
     description: "Industry-recognized certifications upon course completion.",
+    comingSoon: true,
   },
   {
     icon: BookOpen,
     title: "Resources",
     description: "Downloadable guides, templates, and reference materials.",
+    comingSoon: true,
   },
   {
     icon: Users,
@@ -163,8 +165,13 @@ export default function MMCTrainPage() {
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="bg-slate-50 rounded-2xl p-8 hover:shadow-lg transition-shadow"
+                className="relative bg-slate-50 rounded-2xl p-8 hover:shadow-lg transition-shadow"
               >
+                {feature.comingSoon && (
+                  <span className="absolute top-6 right-6 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                    Coming Soon
+                  </span>
+                )}
                 <div className="h-12 w-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
                   <feature.icon className="h-6 w-6 text-indigo-600" />
                 </div>
