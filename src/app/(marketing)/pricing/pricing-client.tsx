@@ -24,6 +24,11 @@ type Plan = {
   popular: boolean;
 };
 
+// A feature ending in this suffix (e.g. "API access (Coming Soon)") renders
+// with a "Coming Soon" badge instead of the raw text — same convention as
+// the "separator" magic string below.
+const COMING_SOON_SUFFIX = " (Coming Soon)";
+
 const plans: Plan[] = [
   {
     // ⚠️ The "was" price is gone, deliberately. This read monthlyPrice 99 with
@@ -63,11 +68,11 @@ const plans: Plan[] = [
       "separator",
       "Multi-user project collaboration",
       "Team invitations & role-based permissions",
-      "Advanced NCC compliance reporting",
+      "Advanced NCC compliance reporting (Coming Soon)",
       "Upload compliance documents & maintain certifications",
       "Priority email support",
-      "Integrations (BIM / SketchUp – roadmap)",
-      "API access",
+      "Integrations (BIM / SketchUp) (Coming Soon)",
+      "API access (Coming Soon)",
     ],
     cta: "Join Waitlist",
     popular: true,
@@ -385,8 +390,12 @@ export function PricingClient() {
                 </div>
 
                 <ul className="space-y-2 mb-6">
-                  {plan.features.map((feature, i) =>
-                    feature === "separator" ? (
+                  {plan.features.map((feature, i) => {
+                    const comingSoon = feature.endsWith(COMING_SOON_SUFFIX);
+                    const label = comingSoon
+                      ? feature.slice(0, -COMING_SOON_SUFFIX.length)
+                      : feature;
+                    return feature === "separator" ? (
                       <li key={i} className="pt-1 pb-1">
                         <div
                           className={`border-t ${
@@ -404,11 +413,16 @@ export function PricingClient() {
                         <span
                           className={`text-sm ${plan.popular ? "text-slate-300" : "text-slate-600"}`}
                         >
-                          {feature}
+                          {label}
+                          {comingSoon && (
+                            <span className="ml-2 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 align-middle">
+                              Coming Soon
+                            </span>
+                          )}
                         </span>
                       </li>
-                    )
-                  )}
+                    );
+                  })}
                 </ul>
 
                 <Button
