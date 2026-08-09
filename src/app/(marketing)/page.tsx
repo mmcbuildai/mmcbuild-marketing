@@ -63,14 +63,16 @@ const solutions = [
     href: "/mmc-train",
     color: "text-indigo-600",
     bgColor: "bg-indigo-50",
+    comingSoon: true,
   },
   {
     icon: Bot,
     title: "MMC Quote",
-    desc: "Intelligent AI Copilot for instant specifications and quoting",
+    desc: "Intelligent AI Copilot for instant specifications and estimating",
     href: "/mmc-quote",
     color: "text-purple-600",
     bgColor: "bg-purple-50",
+    comingSoon: true,
   },
   {
     icon: Users,
@@ -198,7 +200,12 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {solutions.map((feature) => (
               <Link key={feature.title} href={feature.href} className="block h-full">
-                <div className="bg-white rounded-2xl p-8 h-full border border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group">
+                <div className="relative bg-white rounded-2xl p-8 h-full border border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 group">
+                  {feature.comingSoon && (
+                    <span className="absolute top-6 right-6 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                      Coming Soon
+                    </span>
+                  )}
                   <div
                     className={`h-14 w-14 ${feature.bgColor} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
                   >
