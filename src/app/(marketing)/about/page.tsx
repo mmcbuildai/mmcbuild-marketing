@@ -98,10 +98,6 @@ export default function AboutPage() {
                 alt="Modern construction"
                 className="rounded-3xl shadow-2xl"
               />
-              <div className="absolute -bottom-8 -left-8 bg-slate-900 rounded-2xl p-6 shadow-xl">
-                <p className="text-4xl font-bold text-white">2023</p>
-                <p className="text-slate-400">Founded in Sydney</p>
-              </div>
             </div>
           </div>
         </div>
