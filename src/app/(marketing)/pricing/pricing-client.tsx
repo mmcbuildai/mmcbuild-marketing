@@ -229,14 +229,21 @@ const faqs = [
 export function PricingClient() {
   const [isAnnual, setIsAnnual] = React.useState(false);
 
+  // The per-month rate: discounted 20% when annual billing is selected.
   const withAnnual = (amount: number): number =>
     isAnnual ? Math.round(amount * 0.8) : amount;
+
+  // The headline figure for the price card: the annual total when annual
+  // billing is selected (what actually gets charged), the monthly rate
+  // otherwise.
+  const displayAmount = (amount: number): number =>
+    isAnnual ? Math.round(amount * 0.8 * 12) : amount;
 
   const getPrice = (plan: Plan): string => {
     if (plan.monthlyPrice === 0) return "Free";
     if (plan.monthlyPrice === null) return "Custom";
     const base = plan.introPrice ?? plan.monthlyPrice;
-    return `$${withAnnual(base)}`;
+    return `$${displayAmount(base)}`;
   };
 
   // Prices are quoted GST-exclusive, so the period carries the qualifier — see
@@ -244,7 +251,7 @@ export function PricingClient() {
   // GST to apply to, and Enterprise is quoted per deal.
   const getPeriod = (plan: Plan): string => {
     if (plan.monthlyPrice === 0 || plan.monthlyPrice === null) return "";
-    return `/month ${TAX_QUALIFIER}`;
+    return isAnnual ? `/year ${TAX_QUALIFIER}` : `/month ${TAX_QUALIFIER}`;
   };
 
   return (
@@ -340,7 +347,7 @@ export function PricingClient() {
                           plan.popular ? "text-slate-500" : "text-slate-400"
                         }`}
                       >
-                        ${withAnnual(plan.monthlyPrice)}
+                        ${displayAmount(plan.monthlyPrice)}
                       </span>
                     )}
                     <span className={plan.popular ? "text-slate-400" : "text-slate-500"}>
@@ -359,9 +366,8 @@ export function PricingClient() {
                         plan.popular ? "text-slate-400" : "text-slate-500"
                       }`}
                     >
-                      Billed annually at $
-                      {Math.round((plan.introPrice ?? plan.monthlyPrice) * 0.8 * 12)}{" "}
-                      {TAX_QUALIFIER}
+                      ${withAnnual(plan.introPrice ?? plan.monthlyPrice)}/month {TAX_QUALIFIER},
+                      billed annually
                     </p>
                   )}
                   <p
