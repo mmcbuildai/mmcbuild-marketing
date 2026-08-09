@@ -2,20 +2,26 @@ name: CI
 
 # This repository's FIRST continuous integration, added 2026-08-09.
 #
-# ⚠️ WORTH STATING PLAINLY, because it is the reason this file exists: until
-# today `www.mmcbuild.com.au` — the public front door, the pages that quote
-# prices and take people to sign-up — had **no CI at all**. No `.github`
-# directory, no typecheck, no tests, no gate. Anything that compiled locally
-# went live.
+# ⚠️ WORTH STATING PLAINLY, because it is why this file exists: until today
+# `www.mmcbuild.com.au` — the public front door, the pages that quote prices and
+# send people to sign-up — had **no CI at all**. No `.github` directory, no
+# typecheck, no tests, no gate. Anything that compiled on someone's laptop went
+# live.
 #
-# That is how the two sites drifted into showing different prices for the same
-# plan, and how this one came to advertise Essential as "$99, now $49" when no
-# $99 price has ever existed in the Stripe account.
+# That is not incidental to this week. It is how the two sites drifted into
+# showing different prices for the same plan, and how this one advertised
+# Essential as "$99, now $49" when no $99 price has ever existed in Stripe.
 #
-# It got worse before it got better: an `offer-claims.config.json` was committed
-# here earlier the same day with nothing to run it — a guard that looks like
-# coverage and is not, which is precisely the failure mode `@caistech/portfolio-gate`
-# was built to end. This file is the other half of that change.
+# ⚠️ THE GATE IS INSTALLED SEPARATELY, NOT AS A PROJECT DEPENDENCY, and that is
+# deliberate — the first attempt did it the obvious way and BROKE THE SITE'S
+# DEPLOYMENTS. Adding `@caistech/portfolio-gate` to package.json means every
+# install needs a GitHub Packages token, including Vercel's, which does not have
+# one: the preview build failed with ERR_PNPM_FETCH_401 before the check had run
+# once. A verification tool must not be able to take the product down.
+#
+# So the site installs exactly what it installed yesterday, and the gate is
+# fetched into a scratch directory that only CI knows about. The repo's
+# package.json, lockfile and Vercel build are untouched by it.
 
 on:
   pull_request:
@@ -39,33 +45,53 @@ jobs:
           node-version: 24
           cache: pnpm
 
-      # GitHub forbids secrets named with a GITHUB_ prefix, so the token is
-      # stored as GH_PACKAGES_TOKEN and aliased here to the name .npmrc reads.
+      # The site's own dependencies only. No private registry involved, so this
+      # step behaves exactly as Vercel's does.
       - name: Install dependencies
-        env:
-          GITHUB_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
         run: pnpm typecheck
 
-      # BLOCKING, deliberately, and only because the count is currently ZERO.
+      # Fetched into RUNNER_TEMP so nothing about the private registry touches
+      # the project. GitHub forbids secrets named with a GITHUB_ prefix, hence
+      # the alias.
       #
-      # Every price this site states is checked against what Stripe actually
-      # charges, and every free-trial length against what the product actually
-      # grants. Turning it on while it is clean costs nothing; waiting until it
-      # has findings turns switching it on into an argument, which is how a check
-      # ends up permanently "temporarily" advisory.
+      # ⚠️ REQUIRES the `GH_PACKAGES_TOKEN` secret on THIS repository. The
+      # application repo has it; this one did not, and the first run failed with
+      # a 401 that named the token as empty. If this step fails that way again,
+      # that is the cause — it is a missing secret, not a broken check.
+      - name: Fetch the portfolio gate
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/gate"
+          cd "$RUNNER_TEMP/gate"
+          npm config set @caistech:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken "$NODE_AUTH_TOKEN"
+          npm install --no-save --no-package-lock @caistech/portfolio-gate@^0.17.1
+
+      # BLOCKING from day one, deliberately, and only because the count is
+      # currently ZERO. Every price this site states is checked against what
+      # Stripe actually charges, and every free-trial length against what a new
+      # account actually gets.
       #
-      # A figure that is legitimately different — a genuine comparison price —
-      # is not a reason to switch this off. It takes one line naming what
+      # Turning it on while it is clean costs nothing. Waiting until it has
+      # findings turns switching it on into an argument about somebody's open
+      # ticket, which is how a check ends up permanently "temporarily" advisory.
+      #
+      # A figure that is legitimately different — a genuine comparison price — is
+      # not a reason to switch this off. It takes one line naming what
       # substantiates it:
       #     // @offer-claim-ok: <what this figure is, who confirmed it, when>
       #
-      # ⚠️ The config's `verifyAgainstStripe` is still OFF, so the declared
-      # prices are only as current as the last person to check them by hand
-      # (2026-08-09). Closing that needs a Stripe restricted key with Prices:Read
-      # in the repo secrets — until then this check can tell you the PAGE
-      # disagrees with the config, but not that the CONFIG has gone stale.
+      # ⚠️ The config's `verifyAgainstStripe` is still OFF, so this catches a
+      # PAGE that disagrees with the config, but not a CONFIG that has gone
+      # stale. Closing that needs a Stripe restricted key (Prices: Read) in the
+      # repo secrets; until then the declared prices are only as current as the
+      # last hand-check, 2026-08-09.
       - name: Offer claims match Stripe
-        run: pnpm exec portfolio-gate-audit-offer-claims
+        run: >
+          "$RUNNER_TEMP/gate/node_modules/.bin/portfolio-gate-audit-offer-claims"
+          --root "$GITHUB_WORKSPACE"
+          --config "$GITHUB_WORKSPACE/offer-claims.config.json"
