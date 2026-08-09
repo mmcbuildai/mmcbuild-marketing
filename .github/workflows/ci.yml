@@ -1,0 +1,97 @@
+name: CI
+
+# This repository's FIRST continuous integration, added 2026-08-09.
+#
+# ⚠️ WORTH STATING PLAINLY, because it is why this file exists: until today
+# `www.mmcbuild.com.au` — the public front door, the pages that quote prices and
+# send people to sign-up — had **no CI at all**. No `.github` directory, no
+# typecheck, no tests, no gate. Anything that compiled on someone's laptop went
+# live.
+#
+# That is not incidental to this week. It is how the two sites drifted into
+# showing different prices for the same plan, and how this one advertised
+# Essential as "$99, now $49" when no $99 price has ever existed in Stripe.
+#
+# ⚠️ THE GATE IS INSTALLED SEPARATELY, NOT AS A PROJECT DEPENDENCY, and that is
+# deliberate — the first attempt did it the obvious way and BROKE THE SITE'S
+# DEPLOYMENTS. Adding `@caistech/portfolio-gate` to package.json means every
+# install needs a GitHub Packages token, including Vercel's, which does not have
+# one: the preview build failed with ERR_PNPM_FETCH_401 before the check had run
+# once. A verification tool must not be able to take the product down.
+#
+# So the site installs exactly what it installed yesterday, and the gate is
+# fetched into a scratch directory that only CI knows about. The repo's
+# package.json, lockfile and Vercel build are untouched by it.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Typecheck and offer claims
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version comes from package.json's `packageManager`, matching the
+      # application repo's convention so the two cannot drift.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      # The site's own dependencies only. No private registry involved, so this
+      # step behaves exactly as Vercel's does.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      # Fetched into RUNNER_TEMP so nothing about the private registry touches
+      # the project. GitHub forbids secrets named with a GITHUB_ prefix, hence
+      # the alias.
+      #
+      # ⚠️ REQUIRES the `GH_PACKAGES_TOKEN` secret on THIS repository. The
+      # application repo has it; this one did not, and the first run failed with
+      # a 401 that named the token as empty. If this step fails that way again,
+      # that is the cause — it is a missing secret, not a broken check.
+      - name: Fetch the portfolio gate
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/gate"
+          cd "$RUNNER_TEMP/gate"
+          npm config set @caistech:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken "$NODE_AUTH_TOKEN"
+          npm install --no-save --no-package-lock @caistech/portfolio-gate@^0.17.1
+
+      # BLOCKING from day one, deliberately, and only because the count is
+      # currently ZERO. Every price this site states is checked against what
+      # Stripe actually charges, and every free-trial length against what a new
+      # account actually gets.
+      #
+      # Turning it on while it is clean costs nothing. Waiting until it has
+      # findings turns switching it on into an argument about somebody's open
+      # ticket, which is how a check ends up permanently "temporarily" advisory.
+      #
+      # A figure that is legitimately different — a genuine comparison price — is
+      # not a reason to switch this off. It takes one line naming what
+      # substantiates it:
+      #     // @offer-claim-ok: <what this figure is, who confirmed it, when>
+      #
+      # ⚠️ The config's `verifyAgainstStripe` is still OFF, so this catches a
+      # PAGE that disagrees with the config, but not a CONFIG that has gone
+      # stale. Closing that needs a Stripe restricted key (Prices: Read) in the
+      # repo secrets; until then the declared prices are only as current as the
+      # last hand-check, 2026-08-09.
+      - name: Offer claims match Stripe
+        run: >
+          "$RUNNER_TEMP/gate/node_modules/.bin/portfolio-gate-audit-offer-claims"
+          --root "$GITHUB_WORKSPACE"
+          --config "$GITHUB_WORKSPACE/offer-claims.config.json"
