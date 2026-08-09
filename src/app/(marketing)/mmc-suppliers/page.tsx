@@ -55,7 +55,6 @@ const plans: Plan[] = [
       "Access to Australia's growing MMC ecosystem",
       "Access to MMC Build, MMC Comply and MMC Train",
     ],
-    offer: "1 month free registration",
     footnote:
       "Your business can be discovered through directory searches and supplier profiles, but does not receive direct lead referrals.",
   },
@@ -65,7 +64,6 @@ const plans: Plan[] = [
       "Designed for suppliers who want to actively generate project opportunities.",
     price: "$299",
     period: "/month",
-    priceNote: "Plus $250 Founder Rate* Per Qualified Project Lead**",
     popular: true,
     includesLabel: "Includes everything in Verified Directory, plus:",
     features: [
@@ -138,12 +136,17 @@ const featureSections: {
     ],
   },
   {
+    // ⚠️ REMOVED 2026-08-09: the only row here was "1 month free registration",
+    // and it was deleted rather than gated. It promised a free month against a
+    // subscription that cannot be sold — `plans.ts` reads no supplier price ID —
+    // and nothing in Stripe grants a supplier trial of any length. Hiding it
+    // behind a switch would have left the promise one variable from being live
+    // for someone with no way to know it was never real.
+    //
+    // The section is kept as an empty shell so a genuine onboarding offer can be
+    // added later without rebuilding it; an empty `rows` renders nothing.
     title: "Onboarding & Offers",
-    rows: [["1 month free registration", true, true]],
-    // The only comparison section that states a commercial OFFER rather than a
-    // capability. Every other row is true whether or not a price is published;
-    // this one promises a free month against a subscription we can't yet sell,
-    // so it hides with the price claims.
+    rows: [],
     pricingOnly: true,
   },
 ];
@@ -381,12 +384,19 @@ export default function MMCSuppliersPage() {
               <h3 className="text-xl font-bold text-slate-900 mb-4">
                 Founding Supplier Offer
               </h3>
-              {/* The $250 rate is a price claim; the scarcity framing around it
-                  is not, and still reads correctly on its own. */}
+              {/* ⚠️ The "$250 per Qualified Project Lead" figure was removed on
+                  2026-08-09 rather than gated. It is not a Stripe price and
+                  there is no mechanism that could charge it, so it was a number
+                  we could not have honoured — and behind a flag it stayed one
+                  variable away from being published again.
+
+                  The offer itself is real and reads correctly without a figure,
+                  which is why the sentence survives and only the number is gone.
+                  Put a rate back here when one exists in Stripe and can be
+                  billed. */}
               <p className="text-slate-600 mb-3">
-                {showPricing
-                  ? "To support the launch of MMC Build, Founding Suppliers will receive a special lead referral rate of $250 per Qualified Project Lead."
-                  : "To support the launch of MMC Build, Founding Suppliers will receive a special introductory lead referral rate."}
+                To support the launch of MMC Build, Founding Suppliers will receive a
+                special introductory lead referral rate.
               </p>
               <p className="text-slate-600 mb-5">
                 As the platform grows and project volumes increase, lead pricing may
