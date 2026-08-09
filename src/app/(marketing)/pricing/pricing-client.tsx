@@ -11,6 +11,7 @@ import {
   ctaHrefForPlan,
   ctaLabelForPlan,
   ctaSubtext,
+  trialHighlight,
 } from "@/lib/marketing/purchase-cta";
 type Plan = {
   name: string;
@@ -100,7 +101,11 @@ const plans: Plan[] = [
   },
 ];
 
-type FeatureRow = [string, boolean, boolean, boolean];
+// A cell can be true (included), false (not included), or "soon" — included
+// in the tier but not yet built, rendered with the same "Coming Soon" badge
+// used on the plan cards above.
+type Cell = boolean | "soon";
+type FeatureRow = [string, Cell, Cell, Cell];
 
 const featureSections: { title: string; rows: FeatureRow[] }[] = [
   {
@@ -125,7 +130,7 @@ const featureSections: { title: string; rows: FeatureRow[] }[] = [
       ["Single NCC clause citations (transparent & auditable)", true, false, false],
       ["Single Compliance confidence indicators", true, false, false],
       ["Single PDF compliance report export", true, false, false],
-      ["Multiple Whole-of-house NCC compliance checks and reports", false, true, true],
+      ["Multiple Whole-of-house NCC compliance checks and reports", false, "soon", "soon"],
       ["Faster compliance processing", true, true, true],
       ["Issue severity ranking", true, true, true],
       ["Combined compliance report (project-ready)", true, true, true],
@@ -180,9 +185,9 @@ const featureSections: { title: string; rows: FeatureRow[] }[] = [
   {
     title: "Advanced Integrations",
     rows: [
-      ["SketchUp / BIM workflows (roadmap)", false, true, true],
+      ["SketchUp / BIM workflows (roadmap)", false, "soon", "soon"],
       ["Xero / Stripe billing integrations", false, true, true],
-      ["API access", false, true, true],
+      ["API access", false, "soon", "soon"],
     ],
   },
   {
@@ -292,12 +297,19 @@ export function PricingClient() {
               </span>
             </button>
           </div>
+
+          {trialHighlight() && (
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-emerald-500/30">
+              <Sparkles className="h-4 w-4" />
+              {trialHighlight()}
+            </div>
+          )}
         </div>
       </section>
 
       <section className="py-12 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
+          <div className="text-center mb-12">
             <p className="text-sm text-slate-600 mb-3">{TAX_DISCLOSURE}</p>
             <p className="text-slate-600 text-lg">
               {/* Don't promise "pricing" on a page whose prices are hidden. */}
@@ -496,13 +508,17 @@ export function PricingClient() {
                             className="border-t border-slate-200 hover:bg-slate-50"
                           >
                             <td className="px-4 py-3 text-sm text-slate-700 sm:px-6 sm:py-4 sm:text-base">{row[0]}</td>
-                            {([row[1], row[2], row[3]] as boolean[]).map((cell, cellIdx) => (
+                            {([row[1], row[2], row[3]] as Cell[]).map((cell, cellIdx) => (
                               <td
                                 key={cellIdx}
                                 className="border-l border-slate-200 px-3 py-3 text-center sm:px-6 sm:py-4"
                               >
-                                {cell ? (
+                                {cell === true ? (
                                   <CheckCircle2 className="mx-auto h-5 w-5 text-green-600" />
+                                ) : cell === "soon" ? (
+                                  <span className="inline-flex items-center whitespace-nowrap rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                                    Coming Soon
+                                  </span>
                                 ) : (
                                   <span className="text-slate-300">—</span>
                                 )}
