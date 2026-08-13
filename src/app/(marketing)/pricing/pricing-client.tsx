@@ -23,6 +23,12 @@ type Plan = {
   features: string[];
   cta: string;
   popular: boolean;
+  /**
+   * The tier this card sells, carried into sign-up and on to Stripe checkout.
+   * Explicit rather than derived from `name`, so renaming the display label
+   * cannot silently detach the button from the price it sits under.
+   */
+  planId: "essential" | "professional" | "enterprise";
 };
 
 // A feature ending in this suffix (e.g. "API access (Coming Soon)") renders
@@ -40,6 +46,7 @@ const plans: Plan[] = [
     // Corrected against live Stripe 2026-08-09. The introPrice/introLabel
     // mechanism is kept for a real sale later; only the false figure is gone.
     name: "Essential",
+    planId: "essential",
     monthlyPrice: 49,
     description: "Individual builders, architects, designers, early adopters",
     features: [
@@ -61,6 +68,7 @@ const plans: Plan[] = [
     // Partner SUPPLIER tier — a different product entirely — so "normally $299"
     // was not a stale figure, it was never this plan's price at all.
     name: "Professional",
+    planId: "professional",
     monthlyPrice: 199,
     description: "Active builders, architects & consultants managing multiple projects",
     features: [
@@ -80,6 +88,7 @@ const plans: Plan[] = [
   },
   {
     name: "Enterprise",
+    planId: "enterprise",
     monthlyPrice: null,
     description: "Tier 1 & 2 builders, large architectural, consulting & supplier firms",
     features: [
@@ -450,7 +459,12 @@ export function PricingClient() {
                       no self-serve path, so it routes to contact rather than
                       dropping an enterprise buyer into a $49 trial. */}
                   <Link
-                    href={ctaHrefForPlan(plan.monthlyPrice === null, "/contact")}
+                    href={ctaHrefForPlan(
+                      plan.monthlyPrice === null,
+                      "/contact",
+                      plan.planId,
+                      isAnnual ? "year" : "month",
+                    )}
                   >
                     {ctaLabelForPlan(plan.monthlyPrice === null)}{" "}
                     <ArrowRight className="ml-2 h-4 w-4" />
